@@ -3,7 +3,8 @@ use std::fs::{File};
 use std::io::{Read};
 
 fn react<I: Iterator<Item=u8>>(iter: I) -> Vec<u8> {
-    let mut output = Vec::<u8>::with_capacity(50000);
+    let input_size = iter.size_hint().1.unwrap_or(0);
+    let mut output = Vec::<u8>::with_capacity(input_size);
     for c in iter {
         if output.last().cloned() == Some(c^0x20) {
             output.pop();
