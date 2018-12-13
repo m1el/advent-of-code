@@ -68,16 +68,10 @@ struct Cart {
 }
 impl Cart {
     fn step(&mut self, track: u8) {
-        self.dir = match (self.dir, track) {
-            (Dir::Up, b'/') => Dir::Right,
-            (Dir::Up, b'\\') => Dir::Left,
-            (Dir::Down, b'/') => Dir::Left,
-            (Dir::Down, b'\\') => Dir::Right,
-            (Dir::Left, b'/') => Dir::Down,
-            (Dir::Left, b'\\') => Dir::Up,
-            (Dir::Right, b'/') => Dir::Up,
-            (Dir::Right, b'\\') => Dir::Down,
-            (_, b'+') => {
+        self.dir = match track {
+            b'/' => Dir::from_num((5 - (self.dir as usize)) % 4),
+            b'\\' => Dir::from_num((7 - (self.dir as usize)) % 4),
+            b'+' => {
                 let dir = self.dir.apply(self.state);
                 self.state = self.state.next();
                 dir
