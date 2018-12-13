@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::{BTreeMap};
 use std::io::{BufReader, BufRead};
 use std::fs::{File};
 
@@ -61,6 +61,7 @@ impl Turn {
 
 #[derive(Clone,Copy,Debug)]
 struct Cart {
+    dead: bool,
     pos: (usize, usize),
     dir: Dir,
     state: Turn,
@@ -110,6 +111,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
         for (x, ch) in row.iter_mut().enumerate() {
             if CARTS.contains(ch) {
                 carts.push(Cart {
+                    dead: false,
                     pos: (x,y),
                     dir: Dir::from_u8(*ch),
                     state: Turn::Left,
@@ -122,7 +124,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
     while carts.len() > 1 {
         steps += 1;
         carts.sort_by_key(|cart| (cart.pos.1, cart.pos.0));
-        let mut visited: HashMap<(usize,usize),usize> =
+        let mut visited: BTreeMap<(usize,usize),usize> =
                 carts.iter().enumerate()
                 .map(|(id, cart)| (cart.pos, id))
                 .collect();
@@ -139,9 +141,10 @@ fn main() -> Result<(), Box<std::error::Error>> {
                 visited.remove(&cart.pos);
             }
         }
-        carts = carts.iter().cloned().enumerate()
-            .filter_map(|(id, cart)| if to_remove.contains(&id) { None } else { Some(cart) })
-            .collect();
+        for id in to_remove {
+            carts[id].dead = true;
+        }
+        carts.retain(|cart| !cart.dead);
     }
     println!("{:?}", carts);
     println!("elapsed: {:?}", start.elapsed());
