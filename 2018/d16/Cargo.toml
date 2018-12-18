@@ -1,0 +1,9 @@
+[package]
+name = "d16"
+version = "0.1.0"
+authors = ["Igor null <m1el.2027@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+permutohedron = "0.2.4"
+regex = "1.1.0"

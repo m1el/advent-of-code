@@ -1,6 +1,6 @@
 fn main() {
     {
-        let mut recipes = vec![3, 7];
+        let mut recipes = vec![3_u8, 7];
         let mut p1 = 0;
         let mut p2 = 1;
         let input = 147061;
@@ -11,8 +11,8 @@ fn main() {
                 score %= 10;
             }
             recipes.push(score);
-            p1 = (p1 + 1 + recipes[p1]) % recipes.len();
-            p2 = (p2 + 1 + recipes[p2]) % recipes.len();
+            p1 = (p1 + 1 + (recipes[p1] as usize)) % recipes.len();
+            p2 = (p2 + 1 + (recipes[p2] as usize)) % recipes.len();
         }
         println!("{:?}", &recipes[input..input+10]);
     }

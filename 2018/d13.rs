@@ -125,9 +125,8 @@ fn main() -> Result<(), Box<std::error::Error>> {
         let mut to_remove = Vec::new();
         for (id, cart) in carts.iter_mut().enumerate() {
             let (x, y) = cart.pos;
-            let ch = grid[y][x];
             visited.remove(&cart.pos);
-            cart.step(ch);
+            cart.step(grid[y][x]);
             if let Some(prev) = visited.insert(cart.pos, id) {
                 to_remove.push(id);
                 to_remove.push(prev);
@@ -145,4 +144,3 @@ fn main() -> Result<(), Box<std::error::Error>> {
     println!("steps: {:?}", steps);
     Ok(())
 }
-
