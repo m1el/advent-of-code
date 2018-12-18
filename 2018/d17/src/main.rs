@@ -45,7 +45,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
     };
     //println!("{:?}", (min_x, max_x, min_y, max_y));
 
-    let width = (max_x - min_x) + 3;
+    let width = (max_x - min_x) + 5;
     let height = max_y+1;
     let shift = min_x - 2;
     let mut grid = vec![vec![b'.'; width]; max_y+1];
