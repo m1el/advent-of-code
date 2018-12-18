@@ -97,7 +97,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
         x = sx;
         let right = loop {
             if grid[y][x] == b'#' {
-                break Some(x);
+                break Some(x-1);
             }
             grid[y][x] = b'|';
             if x >= width { break None; }
@@ -110,7 +110,7 @@ fn main() -> Result<(), Box<std::error::Error>> {
         // if we've filled a layer
         if let (Some(left), Some(right)) = (left, right) {
             queue.push_back((sx, y-1));
-            for x in left..right {
+            for x in left..right+1 {
                 grid[y][x] = b'~';
             }
         }
